@@ -1,0 +1,47 @@
+.Toolbar {
+    height: 56px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #b1002b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 90;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.Toolbar nav {
+    height: 100%;
+}
+
+.Logo {
+    height: 80%;
+}
+
+
+.Username {
+  color: white;
+  font-size:10px;
+}
+
+.Logout {
+  color: #161616;
+  cursor: pointer;
+  background:none;
+  border:none;
+  font-size:10px;
+  font-family: 'Montserrat', sans-serif;
+  padding: 0;
+}
+
+.Logout:focus {outline:0;}
+
+@media (max-width: 499px) {
+    .DesktopOnly {
+        display: none;
+    }
+}

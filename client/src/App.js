@@ -1,22 +1,42 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import axios from 'axios';
+
+import Aux from './hoc/Aux1/Aux1';
 import Layout from './hoc/Layout/Layout';
 import Auth from './containers/Auth/Auth';
-import axios from 'axios';
+import Home from './containers/Home/Home';
+import Predictions from './containers/Predictions/Predictions';
+
 import './App.css';
-
-
 
 class App extends Component {
   state = {
     response: '',
-    email: ''
+    email: '',
+    auth: false,
+    username: null
   };
+
+  shouldComponentUpdate() {
+    console.log('shouldComponentUpdate');
+    return true;
+  }
 
   componentDidMount() {
     this.callApi()
       .then(res => this.setState({ response: res.express }))
       .catch(err => console.log(err));
+    if (!this.state.auth) {
+      if (localStorage.getItem('xauth')) {
+        axios.get('/users/me', {headers: {'x-auth' : localStorage.getItem('xauth')} }).then( (response) => {
+          let user = response.data.email;
+          this.setState({auth: true, username: user});
+          }).catch((error) => {
+            console.log(error);
+          })
+      }
+    }
   }
 
   callApi = async () => {
@@ -28,27 +48,32 @@ class App extends Component {
     return body;
   };
 
-  getEmail = () => {
-    axios.get('/users/me',{headers: {'x-auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg0MTM1NjI3YTRkN2MwOGYxYTZhMWMiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTE4NjA1MTQzfQ.p6CVa3TFP_wvSTAY8TdPxY03TqQXX3rYA1eS5tp-TfE'}}).then( (response) => {
-      const email = response.data.email;
-      this.setState({response: email});
-    }).catch(function (error) {
-      console.log(error);
-    });
-  }
 
-  handleClick = () => {
-   console.log('this is:', this);
+  logOutHandler = () => {
+    axios.delete('/users/me/token', {headers: {'x-auth' : localStorage.getItem('xauth')} }).then( (response) => {
+      console.log('Logged out');
+      this.setState({auth: false, username: null});
+      localStorage.removeItem('xauth');
+    }).catch((error) => {
+        console.log(error);
+    })
  }
 
   render() {
-
+    let route = <Route path="/" component={Auth} />;
+    if (this.state.auth) {
+       route = (
+         <Aux>
+           <Route path="/predictions" component={Predictions} />
+           <Route path="/home" component={Home} />
+         </Aux>
+       );
+    }
     return (
       <div>
-        <Layout>
+        <Layout authstatus={this.state.auth} username={this.state.username} logout={this.logOutHandler}>
           <Switch>
-            <Route path="/auth" component={Auth} />
-            <Route path="/" exact component={Auth} />
+            {route}
           </Switch>
         </Layout>
       </div>

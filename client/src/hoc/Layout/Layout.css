@@ -1,4 +1,6 @@
 .Content {
+    font-family: 'Montserrat', sans-serif;
+    max-width: 960px;
     text-align: center;
-    margin-top: 72px;
+    margin: 0 auto;
 }

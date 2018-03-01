@@ -112,7 +112,12 @@ app.post('/users', (req, res)=> {
   }).then((token) => {
     res.header('x-auth', token).send(user);
   }).catch((e)=> {
-    res.status(400).send(e);
+    if (e.errmsg.search('duplicate')) {
+      res.status(400).send('This email is already used!');
+    } else {
+      res.status(400).send(e);
+    }
+
   })
 });
 
@@ -129,11 +134,11 @@ app.post('/users/login', (req,res) => {
       res.header('x-auth', token).send(user);
     })
   }).catch((e)=> {
-    res.status(400).send();
+    res.status(400).send(e);
   });
 });
 
-app.delete('/users/me/token', authenticate, (req,res)=> { //Logout
+app.delete('/users/me/token', authenticate, (req,res)=> { //Logout action
   req.user.removeToken(req.token).then(()=>{
     res.status(200).send();
   }, ()=>{

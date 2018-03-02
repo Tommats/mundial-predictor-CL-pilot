@@ -110,17 +110,6 @@ class Auth extends Component {
           this.setState({errMsg: errorMsg})
         })
     };
-
-    //     // let errorMsg = error;
-    //     // const updatedControls = {
-    //     //   ...this.state.controls,
-    //     //   email: {
-    //     //     ...this.state.controls.email,
-    //     //     serverError: errorMsg
-    //     //   }
-    //     // }
-    //     //     this.setState({controls: updatedControls});
-    //   });
   }
 
   render() {

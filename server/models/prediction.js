@@ -1,15 +1,19 @@
 var mongoose = require('mongoose');
 
-var Bet = mongoose.model('Bet', {
-  text: {
+var Prediction = mongoose.model('Prediction', {
+  matchId: {
     type: String,
     required: true,
     minlength: 1,
     trim: true
   },
-  completed : {
-    type: Boolean,
-    default: false
+  home: {
+    type: Number,
+    default: 0
+  },
+  away: {
+    type: Number,
+    default: 0
   },
   completedAt: {
     type: Number,
@@ -21,4 +25,4 @@ var Bet = mongoose.model('Bet', {
   }
 });
 
-module.exports = {Bet};
+module.exports = {Prediction};

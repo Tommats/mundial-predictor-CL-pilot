@@ -18,11 +18,6 @@ class App extends Component {
     username: null
   };
 
-  shouldComponentUpdate() {
-    console.log('shouldComponentUpdate');
-    return true;
-  }
-
   componentDidMount() {
     this.callApi()
       .then(res => this.setState({ response: res.express }))
@@ -30,7 +25,7 @@ class App extends Component {
     if (!this.state.auth) {
       if (localStorage.getItem('xauth')) {
         axios.get('/users/me', {headers: {'x-auth' : localStorage.getItem('xauth')} }).then( (response) => {
-          let user = response.data.email;
+          let user = response.data.name;
           this.setState({auth: true, username: user});
           }).catch((error) => {
             console.log(error);
@@ -66,6 +61,7 @@ class App extends Component {
          <Aux>
            <Route path="/predictions" component={Predictions} />
            <Route path="/home" component={Home} />
+           <Route path="/" exact component={Home} />
          </Aux>
        );
     }

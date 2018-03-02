@@ -4,10 +4,11 @@ const {ObjectID} = require('mongodb');
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
+const axios = require('axios');
 
 var path = require('path');
 var {mongoose} = require('./db/mongoose');
-var {Bet} = require('./models/bet');
+var {Prediction} = require('./models/prediction');
 var {User} = require('./models/user');
 var {authenticate} = require('./middleware/authenticate');
 
@@ -22,89 +23,85 @@ app.get('/api/hello', (req, res) => {
 });
 
 
-app.post('/bets', authenticate, (req, res)=> {
-  var bet = new Bet ({
-    text: req.body.text,
-    _creator: req.user._id
+app.post('/predictions', authenticate, (req, res)=> {
+  var prediction = new Prediction ({
+    matchId: req.body.matchId,
+    _creator: req.user._id,
+    completedAt: new Date().getTime()
   });
 
-  bet.save().then((doc) => {
+  prediction.save().then((doc) => {
     res.send(doc);
   }, (e)=> {
     res.status(400).send(e);
   });
 });
 
-app.get('/bets', authenticate, (req, res) => {
-  Bet.find({
+app.get('/predictions', authenticate, (req, res) => {
+  Prediction.find({
     _creator: req.user._id
-  }).then( (bets) => {
-    res.send({bets});
+  }).then( (predictions) => {
+    res.send({predictions});
   }, (e) => {
     res.status(400).send(e);
   })
 });
 
-app.get('/bets/:id', authenticate, (req, res) => {
+app.get('/predictions/:id', authenticate, (req, res) => {
   var id = req.params.id;
   if (!ObjectID.isValid(id)) {
      return res.status(404).send();
   }
-  Bet.findOne({
+  Prediction.findOne({
     _id: id,
     _creator: req.user._id
-  }).then((bet)=>{
-    if (!bet) {
+  }).then((prediction)=>{
+    if (!prediction) {
       return res.status(404).send();
     }
-    res.status(200).send({bet});
+    res.status(200).send({prediction});
   }).catch ((e)=> res.status(400).send());
 });
 
-app.delete('/bets/:id', authenticate, (req, res)=>{
+app.delete('/predictions/:id', authenticate, (req, res)=>{
   var id = req.params.id;
   if (!ObjectID.isValid(id)) {
      return res.status(404).send();
   }
-  Bet.findOneAndRemove({
+  Prediction.findOneAndRemove({
     _id: id,
     _creator: req.user.id
-  }).then((bet)=>{
-    if (!bet) {
+  }).then((prediction)=>{
+    if (!prediction) {
       return res.status(404).send();
     }
-    res.status(200).send({bet});
+    res.status(200).send({prediction});
   }).catch ((e)=> res.status(400).send());
 });
 
-app.patch('/bets/:id', authenticate, (req, res) => {
+app.patch('/predictions/:id', authenticate, (req, res) => {
   var id = req.params.id;
-  var body = _.pick(req.body, ['text', 'completed']);
+  var body = _.pick(req.body, ['home', 'away']);
 
   if (!ObjectID.isValid(id)) {
      return res.status(404).send();
   }
 
-  if (_.isBoolean(body.completed) && body.completed) {
-    body.completedAt = new Date().getTime();
-  } else {
-    body.completed = false;
-    body.completedAt = null;
-  }
+  body.completedAt = new Date().getTime();
 
-  Bet.findOneAndUpdate({_id:id, _creator:req.user.id}, {$set: body}, {new: true}).then((bet)=>{
-    if(!bet) {
+  Prediction.findOneAndUpdate({_id:id, _creator:req.user.id}, {$set: body}, {new: true}).then((prediction)=>{
+    if(!prediction) {
       return res.status(404).send();
     }
 
-    res.send({bet});
+    res.send({prediction});
   }).catch((e)=>{
     res.status(400).send();
   })
 })
 
 app.post('/users', (req, res)=> {
-  var body = _.pick(req.body, ['email', 'password']);
+  var body = _.pick(req.body, ['email', 'password', 'name']);
   var user = new User(body);
 
   user.save().then(() => {

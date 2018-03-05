@@ -47,21 +47,40 @@ class Game extends Component {
       {(this.state.saved) ? <span className={classes.SaveMessage}>{this.state.saveMessage}</span> : null}
       </p>
     );
+
+    let homeIcon = `/images/${this.props.homeId}.png`;
+    let awayIcon = `/images/${this.props.awayId}.png`;
+    let points = null;
+    let sign = '✘';
+
+    if (this.props.status === 'FINISHED') {
+      let pointsClass = [classes.Points];
+      if (this.props.points>2) {
+        pointsClass.push(classes.GreenPoints);
+        sign = '✔';
+      } else if (this.props.points===2) {
+        pointsClass.push(classes.OrangePoints);
+        sign = '➦';
+      } else {
+        pointsClass.push(classes.RedPoints);
+      }
+      points = <span className={pointsClass.join(' ')}>{sign}&nbsp;&nbsp;{this.props.points} Points</span>
+    }
+
     if (!this.state.editable) {
       predictionBox = (
         <p>
           <span className={classes.PredictionText}>My prediction:</span>&nbsp;<span className={classes.DisabledBox}>{this.state.homePrediction}</span>&nbsp;-&nbsp;
           <span className={classes.DisabledBox}>{this.state.awayPrediction}</span>
+          {points}
         </p>
       )
     }
-    let homeIcon = `/images/${this.props.homeId}.png`;
-    let awayIcon = `/images/${this.props.awayId}.png`;
     return (
       <div className={classes.Game}>
         {(this.props.status === 'FINISHED') ? <span className={classes.Closed}>Closed</span>  : null }
         <p>{this.props.formatedDate}</p>
-        <p><img src={homeIcon} className={classes.Icon} />{this.props.home} vs <img src={awayIcon} className={classes.Icon} />{this.props.away} {(!this.state.editable) ? <span className={classes.FinalResult}> {this.props.homeGoals}-{this.props.awayGoals}</span>  : null }</p>
+        <p><img src={homeIcon} className={classes.Icon} alt={this.props.home} />{this.props.home} vs <img src={awayIcon} className={classes.Icon} alt={this.props.away} />{this.props.away} {(!this.state.editable) ? <span className={classes.FinalResult}> {this.props.homeGoals}-{this.props.awayGoals}</span>  : null }</p>
         {predictionBox}
       </div>
     );

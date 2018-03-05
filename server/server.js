@@ -158,7 +158,7 @@ app.get('/usersList', authenticate, function(req, res) {
 
 var rule = new schedule.RecurrenceRule();
 // rule.hour = [15, 18, 21, 23];
-rule.minute = 56;
+rule.minute = 58;
 
 var dailyJob = schedule.scheduleJob(rule, function(){
   console.log('Running scheduler now', Date.now());
@@ -170,7 +170,7 @@ var dailyJob = schedule.scheduleJob(rule, function(){
       Prediction.find({
         matchId: games[game].id
       }).then( (predictions) => {
-        if ((games[game].date > (Date.now()-(288 * 60 * 60 * 1000)))&&(games[game].status==="FINISHED")) { //Get finished games which not yet been calculated, from the relevant time in the past (currently 11 days 24*11=264)
+        if ((games[game].date > (Date.now()-(4800 * 60 * 60 * 1000)))&&(games[game].status==="FINISHED")) { //Get finished games which not yet been calculated, from the relevant time in the past (currently 11 days 24*11=264)
           // Ponits logic: checking the final results and scoring as follow: direction - 2 points, exact score - 3 points, for every extra goal greater than up to 3 goals prediction - extra 2 points.
           for (let k in predictions) {
             if (predictions[k].status === 'Initial') {

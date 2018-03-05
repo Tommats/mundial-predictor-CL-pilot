@@ -94,3 +94,25 @@
   vertical-align: bottom;
   margin: 0 8px 0 8px;
 }
+
+.Points {
+  margin-left: 20px;
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  border-radius: 3px;
+  padding: 3px 6px 3px 6px;
+  color:white;
+}
+
+.RedPoints {
+  background-color: #fe2020;
+}
+
+.OrangePoints {
+  background-color: #e4a400;
+}
+
+.GreenPoints {
+  background-color: #008f0a;
+}

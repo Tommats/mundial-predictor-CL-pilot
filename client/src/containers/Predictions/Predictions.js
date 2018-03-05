@@ -54,6 +54,7 @@ class Predictions extends Component {
         return <Game
           key={game.id}
           id={this.state.predictions[game.id]._id}
+          points={this.state.predictions[game.id].points}
           homeId = {game.homeTeamId}
           awayId = {game.awayTeamId}
           date={game.date}

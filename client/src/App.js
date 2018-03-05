@@ -6,6 +6,7 @@ import Aux from './hoc/Aux1/Aux1';
 import Layout from './hoc/Layout/Layout';
 import Auth from './containers/Auth/Auth';
 import Home from './containers/Home/Home';
+import Table from './containers/Table/Table';
 import Predictions from './containers/Predictions/Predictions';
 
 import './App.css';
@@ -61,6 +62,7 @@ class App extends Component {
          <Aux>
            <Route path="/predictions" component={Predictions} />
            <Route path="/home" component={Home} />
+           <Route path="/table" component={Table} />
            <Route path="/" exact component={Home} />
          </Aux>
        );

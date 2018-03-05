@@ -35,14 +35,30 @@ var UserSchema = new mongoose.Schema({
           type:String,
           required: true
         }
-    }]
+    }],
+    points: {
+      type: Number,
+      default: 0
+    },
+    general: {
+      type: Number,
+      default: 0
+    },
+    exact: {
+      type: Number,
+      default: 0
+    },
+    exactGoals: {
+      type: Number,
+      default: 0
+    }
 });
 
 UserSchema.methods.toJSON = function () {
   var user = this;
   var userObject = user.toObject();
 
-  return _.pick(userObject,['_id','email','name']);
+  return _.pick(userObject,['_id','email','name', 'points','general','exact','exactGoals']);
 };
 
 UserSchema.methods.generateAuthToken = function () {

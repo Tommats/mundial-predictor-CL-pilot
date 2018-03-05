@@ -1,3 +1,14 @@
 .Predictions {
   padding-top: 80px;
 }
+
+.Header {
+  margin: 40px 0 15px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #2f2f2f;
+}
+
+.Header:first-child {
+  margin-top: 10px;
+}

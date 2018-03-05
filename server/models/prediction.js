@@ -22,6 +22,14 @@ var Prediction = mongoose.model('Prediction', {
   _creator: {
     type: mongoose.Schema.Types.ObjectId,
     required: true
+  },
+  points: {
+    type: Number,
+    default: 0
+  },
+  status: {
+    type: String,
+    default: 'Initial'
   }
 });
 

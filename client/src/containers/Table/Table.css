@@ -1,0 +1,12 @@
+.TablePage {
+  padding-top: 100px;
+}
+
+.Table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.SmallHeader {
+  font-size: 10px;
+}

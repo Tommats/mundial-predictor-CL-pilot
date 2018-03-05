@@ -1,0 +1,15 @@
+.TableRow {
+  border: 1px #323232 solid;
+  box-shadow: 3px 3px #ccc;
+  height: 30px;
+}
+
+.Spacer {
+  height: 10px;
+  background-color: white;
+  border: 0;
+}
+
+.Winner {
+  background-color: #badeff;
+}

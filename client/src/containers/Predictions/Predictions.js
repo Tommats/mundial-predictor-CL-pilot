@@ -11,7 +11,8 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 class Predictions extends Component {
   state = {
     games: '',
-    predictions: ''
+    predictions: '',
+    loading: true,
   };
 
   componentDidMount() {
@@ -37,20 +38,22 @@ class Predictions extends Component {
           predictions[newKey] = predictions[prediction];
           delete predictions[prediction];
         }
-        this.setState({predictions: predictions});
+        this.setState({predictions: predictions, loading: false});
         }).catch((error) => {
           console.log(error);
         })
     }
   }
-
   render() {
-    let games = <Spinner />;
+    let games = null;
+    let upcoming = null;
     if (this.state.games.length>0 && this.state.predictions.length) {
       games = this.state.games.map((game)=>{
         return <Game
           key={game.id}
-          date={dateFormat (game.date, "dd/mm/yyyy HH:MM")}
+          id={this.state.predictions[game.id]._id}
+          date={game.date}
+          formatedDate={dateFormat (game.date, "dd/mm/yyyy HH:MM")}
           home={game.homeTeamName}
           homeGoals={game.result.goalsHomeTeam}
           awayGoals={game.result.goalsAwayTeam}
@@ -58,11 +61,34 @@ class Predictions extends Component {
           predictedAway={this.state.predictions[game.id].away}
           away={game.awayTeamName}
           status={game.status} />
-      })
-    }
+      });
+
+
+
+      upcoming = this.state.games.filter(game => ((game.date<(Date.now()+(48 * 60 * 60 * 1000))) && (game.date>Date.now())) ).map((game) => {
+          return <Game
+            key={game.id}
+            id={this.state.predictions[game.id]._id}
+            date={game.date}
+            formatedDate={dateFormat (game.date, "dd/mm/yyyy HH:MM")}
+            home={game.homeTeamName}
+            homeGoals={game.result.goalsHomeTeam}
+            awayGoals={game.result.goalsAwayTeam}
+            predictedHome={this.state.predictions[game.id].home}
+            predictedAway={this.state.predictions[game.id].away}
+            away={game.awayTeamName}
+            status={game.status} />
+        });
+      if (upcoming[Object.keys(upcoming)[0]] === undefined) {
+        upcoming = "No games in the next 48 hours."
+      }
+    };
+
     return (
       <div className={classes.Predictions}>
-        {games}
+        {(this.state.loading) ? <Spinner /> : (
+          <div><div className={classes.Header}>Upcoming Fixtures</div>{upcoming}<div className={classes.Header}>All Fixtures</div>{games}</div>
+        )}
       </div>
     );
   }

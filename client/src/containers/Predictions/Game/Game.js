@@ -55,12 +55,13 @@ class Game extends Component {
         </p>
       )
     }
-
+    let homeIcon = `/images/${this.props.homeId}.png`;
+    let awayIcon = `/images/${this.props.awayId}.png`;
     return (
       <div className={classes.Game}>
         {(this.props.status === 'FINISHED') ? <span className={classes.Closed}>Closed</span>  : null }
         <p>{this.props.formatedDate}</p>
-        <p>{this.props.home} vs {this.props.away} {(!this.state.editable) ? <span className={classes.FinalResult}>{this.props.homeGoals}-{this.props.awayGoals}</span>  : null }</p>
+        <p><img src={homeIcon} className={classes.Icon} />{this.props.home} vs <img src={awayIcon} className={classes.Icon} />{this.props.away} {(!this.state.editable) ? <span className={classes.FinalResult}> {this.props.homeGoals}-{this.props.awayGoals}</span>  : null }</p>
         {predictionBox}
       </div>
     );

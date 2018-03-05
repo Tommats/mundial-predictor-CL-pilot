@@ -23,6 +23,8 @@ class Predictions extends Component {
         games[newKey] = games[game];
         games[newKey].date = Date.parse(games[newKey].date);
         games[newKey].id = games[game]._links.self.href.replace("http://api.football-data.org/v1/fixtures/", "");
+        games[newKey].homeTeamId = (parseInt(games[game]._links.homeTeam.href.replace("http://api.football-data.org/v1/teams/", ""),10));
+        games[newKey].awayTeamId = (parseInt(games[game]._links.awayTeam.href.replace("http://api.football-data.org/v1/teams/", ""),10));
         delete games[game];
       }
       games.sort( (a,b) => {return (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0);} );
@@ -52,6 +54,8 @@ class Predictions extends Component {
         return <Game
           key={game.id}
           id={this.state.predictions[game.id]._id}
+          homeId = {game.homeTeamId}
+          awayId = {game.awayTeamId}
           date={game.date}
           formatedDate={dateFormat (game.date, "dd/mm/yyyy HH:MM")}
           home={game.homeTeamName}
@@ -69,6 +73,8 @@ class Predictions extends Component {
           return <Game
             key={game.id}
             id={this.state.predictions[game.id]._id}
+            homeId = {game.homeTeamId}
+            awayId = {game.awayTeamId}
             date={game.date}
             formatedDate={dateFormat (game.date, "dd/mm/yyyy HH:MM")}
             home={game.homeTeamName}

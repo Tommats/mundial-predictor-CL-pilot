@@ -66,17 +66,17 @@ class Table extends Component {
           clicked={()=>this.userClickedHandler(user._id,user.name)} />
       });
       table = (
-        <table className={classes.Table}>
+        <table className={classes.Table}  align="center">
           <tbody>
             <tr>
               <th>
-                Position
+                Pos.
               </th>
               <th>
                 Name
               </th>
               <th>
-                Points
+                Pts.
               </th>
               <th className={classes.SmallHeader}>
                 General Predictions

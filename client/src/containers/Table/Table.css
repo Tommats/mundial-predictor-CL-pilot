@@ -1,12 +1,33 @@
 .TablePage {
   padding-top: 100px;
+  overflow-x: hidden;
+  text-align: center;
 }
 
 .Table {
-  width: 100%;
+  width: 98%;
   border-collapse: collapse;
 }
 
 .SmallHeader {
   font-size: 10px;
+}
+
+@media (max-width: 550px) {
+  .Table {
+    font-size: 12px;
+  }
+  .SmallHeader {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 430px) {
+  .Table {
+    font-size: 10px;
+  }
+  .SmallHeader {
+    font-size: 7px;
+  }
+
 }

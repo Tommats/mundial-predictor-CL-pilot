@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import classes from './Game.css';
 
 class Game extends Component {
-  state = {
-    homePrediction: 0,
-    awayPrediction: 0,
-  }
 
   render() {
 
@@ -30,8 +26,8 @@ class Game extends Component {
 
        let predictionBox = (
         <p>
-          <span className={classes.PredictionText}>{this.props.name}&apos;s prediction:</span>&nbsp;<span className={classes.DisabledBox}>{this.state.homePrediction}</span>&nbsp;-&nbsp;
-          <span className={classes.DisabledBox}>{this.state.awayPrediction}</span>
+          <span className={classes.PredictionText}>{this.props.name}&apos;s prediction:</span>&nbsp;<span className={classes.DisabledBox}>{this.props.predictedHome}</span>&nbsp;-&nbsp;
+          <span className={classes.DisabledBox}>{this.props.predictedAway}</span>
           {points}
         </p>
       )

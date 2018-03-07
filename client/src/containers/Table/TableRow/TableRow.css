@@ -13,3 +13,7 @@
 .Winner {
   background-color: #badeff;
 }
+
+.User {
+  cursor: pointer;
+}

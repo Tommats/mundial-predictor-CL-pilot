@@ -64,6 +64,22 @@ app.get('/predictions/:id', authenticate, (req, res) => {
   }).catch ((e)=> res.status(400).send());
 });
 
+app.get('/predictions/user/:id', authenticate, (req, res) => {
+  var id = req.params.id;
+  if (!ObjectID.isValid(id)) {
+     return res.status(404).send();
+  }
+  Prediction.find({
+    status: 'Done',
+    _creator: id
+  }).then((predictions)=>{
+    if (!predictions) {
+      return res.status(404).send();
+    }
+    res.status(200).send({predictions});
+  }).catch ((e)=> res.status(400).send());
+});
+
 app.delete('/predictions/:id', authenticate, (req, res)=>{
   var id = req.params.id;
   if (!ObjectID.isValid(id)) {
@@ -158,7 +174,7 @@ app.get('/usersList', authenticate, function(req, res) {
 
 var rule = new schedule.RecurrenceRule();
 // rule.hour = [15, 18, 21, 23];
-rule.minute = 58;
+rule.minute = 21;
 
 var dailyJob = schedule.scheduleJob(rule, function(){
   console.log('Running scheduler now', Date.now());

@@ -18,7 +18,7 @@ const tableRow = (props) => {
     <tr className={classes.Spacer}></tr>
     <tr className={trClass.join(' ')}>
       <td>{props.rank}</td>
-      <td>{symbol}&nbsp;&nbsp;{props.name}</td>
+      <td onClick={props.clicked} className={classes.User}>{symbol}&nbsp;&nbsp;{props.name}</td>
       <td>{props.points}</td>
       <td>{props.general}</td>
       <td>{props.exact}</td>

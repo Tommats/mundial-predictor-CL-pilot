@@ -8,6 +8,7 @@ import Auth from './containers/Auth/Auth';
 import Home from './containers/Home/Home';
 import Table from './containers/Table/Table';
 import Predictions from './containers/Predictions/Predictions';
+import FriendPrediction from './containers/FriendPrediction/FriendPrediction';
 
 import './App.css';
 
@@ -63,6 +64,7 @@ class App extends Component {
            <Route path="/predictions" component={Predictions} />
            <Route path="/home" component={Home} />
            <Route path="/table" component={Table} />
+           <Route path="/user/" component={FriendPrediction} />
            <Route path="/" exact component={Home} />
          </Aux>
        );

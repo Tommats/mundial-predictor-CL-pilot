@@ -78,7 +78,7 @@ class Game extends Component {
     }
     return (
       <div className={classes.Game}>
-        {(this.props.status === 'FINISHED') ? <span className={classes.Closed}>Closed</span>  : null }
+        {(!this.state.editable) ? <span className={classes.Closed}>Closed</span>  : null }
         <p>{this.props.formatedDate}</p>
         <p><img src={homeIcon} className={classes.Icon} alt={this.props.home} />{this.props.home} vs <img src={awayIcon} className={classes.Icon} alt={this.props.away} />{this.props.away} {(!this.state.editable) ? <span className={classes.FinalResult}> {this.props.homeGoals}-{this.props.awayGoals}</span>  : null }</p>
         {predictionBox}

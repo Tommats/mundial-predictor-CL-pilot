@@ -43,6 +43,13 @@ class Table extends Component {
     }
   }
 
+  userClickedHandler = (id,name) => {
+    this.props.history.push({
+      pathname: '/user/',
+      search: '?id='+encodeURIComponent(id)+'&name='+encodeURIComponent(name)
+    });
+  }
+
   render() {
     let table = <Spinner />;
 
@@ -55,7 +62,8 @@ class Table extends Component {
           points={user.points}
           general={user.general}
           exact={user.exact}
-          exactGoals={user.exactGoals} />
+          exactGoals={user.exactGoals}
+          clicked={()=>this.userClickedHandler(user._id,user.name)} />
       });
       table = (
         <table className={classes.Table}>

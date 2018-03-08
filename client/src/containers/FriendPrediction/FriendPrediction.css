@@ -8,9 +8,29 @@
   padding-bottom: 30px;
 }
 
+.BackButtonContainer {
+  text-align: left;
+}
+
+.BackButton {
+  background-color: white;
+  border:none;
+  cursor: pointer;
+  color: #29b2ff;
+  text-shadow: 2px 2px #000000;
+  font-size: 28px;
+  font-weight:bold;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.BackButton:focus {outline:0;}
+
 @media (max-width: 550px) {
   .PlayerName {
     padding-bottom: 20px;
+    font-size: 20px;
+  }
+  .BackButton {
     font-size: 20px;
   }
 }
@@ -18,6 +38,10 @@
 @media (max-width: 430px) {
   .PlayerName {
     padding-bottom: 14px;
+    font-size: 14px;
+  }
+
+  .BackButton {
     font-size: 14px;
   }
 }

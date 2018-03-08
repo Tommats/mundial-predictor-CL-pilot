@@ -174,7 +174,7 @@ app.get('/usersList', authenticate, function(req, res) {
 
 var rule = new schedule.RecurrenceRule();
 // rule.hour = [15, 18, 21, 23];
-rule.minute = 21;
+rule.minute = 11;
 
 var dailyJob = schedule.scheduleJob(rule, function(){
   console.log('Running scheduler now', Date.now());
@@ -226,17 +226,17 @@ var dailyJob = schedule.scheduleJob(rule, function(){
                   })
 
                 }, (e) => {
-                  console.log(e);
+                  console.log('Error with User findOne',e);
                 });
             }
           }
         }
       }, (e) => {
-        console.log(e);
+        console.log('Error with Prediction Find',e);
       })
     }
   }).catch((error) => {
-    console.log(error);
+    console.log('Error with Axios Get',error);
   });
 
 

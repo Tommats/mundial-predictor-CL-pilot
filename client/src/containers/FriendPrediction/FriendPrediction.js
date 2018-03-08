@@ -48,6 +48,10 @@ class FriendPredictions extends Component {
         })
     }
   }
+
+  backButtonClickHandler = () => {
+    this.props.history.goBack();
+  }
   render() {
     let games = null;
     if (this.state.games.length>0 && this.state.predictions.length) {
@@ -75,6 +79,7 @@ class FriendPredictions extends Component {
       <div className={classes.Predictions}>
         {(this.state.loading) ? <Spinner /> : (
           <Aux>
+          <div className={classes.BackButtonContainer}><button className={classes.BackButton} onClick={this.backButtonClickHandler}>◄</button></div>
           <div className={classes.PlayerName}>{this.state.name}&apos;s Predictions</div>
           <div>{games}</div>
           </Aux>

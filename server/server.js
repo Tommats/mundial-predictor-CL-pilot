@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const axios = require('axios');
 const schedule = require('node-schedule');
+const cors = require('cors')
 
 var path = require('path');
 var {mongoose} = require('./db/mongoose');
@@ -14,6 +15,8 @@ var {User} = require('./models/user');
 var {authenticate} = require('./middleware/authenticate');
 
 var app = express();
+
+app.use(cors());
 
 const port = process.env.PORT;
 
@@ -145,7 +148,7 @@ app.post('/users/login', (req,res) => {
 
   User.findByCredentials(body.email, body.password).then((user)=>{
     return user.generateAuthToken().then((token)=>{
-      res.header('x-auth', token).send(user);
+      res.header('x-auth', token).send(token);
     })
   }).catch((e)=> {
     res.status(400).send(e);
@@ -173,8 +176,8 @@ app.get('/usersList', authenticate, function(req, res) {
 });
 
 var rule = new schedule.RecurrenceRule();
-// rule.hour = [15, 18, 21, 23];
-rule.minute = 11;
+rule.hour = [23, 00, 01, 02, 07, 08, 10 , 11];
+rule.minute = 30;
 
 var dailyJob = schedule.scheduleJob(rule, function(){
   console.log('Running scheduler now', Date.now());
@@ -186,7 +189,7 @@ var dailyJob = schedule.scheduleJob(rule, function(){
       Prediction.find({
         matchId: games[game].id
       }).then( (predictions) => {
-        if ((games[game].date > (Date.now()-(4800 * 60 * 60 * 1000)))&&(games[game].status==="FINISHED")) { //Get finished games which not yet been calculated, from the relevant time in the past (currently 11 days 24*11=264)
+        if ((games[game].date > (Date.now()-(48 * 60 * 60 * 1000)))&&(games[game].status==="FINISHED")) { //Get finished games which not yet been calculated, from the relevant time in the past (currently 2 days 24*2=48)
           // Ponits logic: checking the final results and scoring as follow: direction - 2 points, exact score - 3 points, for every extra goal greater than up to 3 goals prediction - extra 2 points.
           for (let k in predictions) {
             if (predictions[k].status === 'Initial') {

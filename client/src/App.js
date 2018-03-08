@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import axios from 'axios';
+import axios from './axios';
 
 import Aux from './hoc/Aux1/Aux1';
 import Layout from './hoc/Layout/Layout';

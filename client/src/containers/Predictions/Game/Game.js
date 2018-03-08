@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classes from './Game.css';
-import axios from 'axios';
+import axios from '../../../axios';
 
 class Game extends Component {
   state = {
@@ -21,7 +21,9 @@ class Game extends Component {
 
   changePredictionHandler = (event, inputIdentifier) => {
     let value = event.target.value;
-
+    if (isNaN(value)) {
+    alert("Must input numbers");
+    }
     if ((inputIdentifier === 'home') && (value!==this.state.homePrediction)) {
       this.setState({homePrediction: value, edited:true, saved: false});
     } else if ((inputIdentifier === 'away') && (value!==this.state.awayPrediction)) {
@@ -32,10 +34,14 @@ class Game extends Component {
   savePredictionHandler = () => {
     let data = {home : this.state.homePrediction, away: this.state.awayPrediction};
     let saveMsg = 'Saved!';
-    axios.patch('/predictions/'+this.props.id, data, {headers: {'x-auth' : localStorage.getItem('xauth')} }).then( (response) => {
-    }).catch((error) => {
-        saveMsg='Error, contact admin';
-    });
+    if (isNaN(data.home) || isNaN(data.away)) {
+      saveMsg = 'Change inputs!';
+    } else {
+      axios.patch('/predictions/'+this.props.id, data, {headers: {'x-auth' : localStorage.getItem('xauth')} }).then( (response) => {
+      }).catch((error) => {
+          saveMsg='Error, contact admin';
+      });
+    }
     this.setState({edited: false,saved: true,saveMessage: saveMsg});
   }
 

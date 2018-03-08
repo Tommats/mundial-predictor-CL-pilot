@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import dateFormat from 'dateformat';
 import Game from './Game/Game';
 import classes from './Predictions.css';
-import axios from 'axios';
+import axios from '../../axios';
 
 import Spinner from '../../components/UI/Spinner/Spinner';
 
@@ -16,7 +16,7 @@ class Predictions extends Component {
   };
 
   componentDidMount() {
-    axios.get('http://api.football-data.org/v1/competitions/464/fixtures', {headers: {'X-Auth-Token' : '6a03d467443843759002ddfced5206c2'} }).then( (response) => {
+    axios.get('https://api.football-data.org/v1/competitions/464/fixtures', {headers: {'X-Auth-Token' : '6a03d467443843759002ddfced5206c2'} }).then( (response) => {
       let games = response.data.fixtures;
       for(let game in games) {
         let newKey = (parseInt(games[game]._links.self.href.replace("http://api.football-data.org/v1/fixtures/", ""),10));

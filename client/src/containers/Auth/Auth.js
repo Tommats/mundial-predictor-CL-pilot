@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import axios from 'axios';
+import axios from '../../axios';
 import classes from './Auth.css';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
@@ -103,10 +103,26 @@ class Auth extends Component {
       };
       axios.post('/users/login', data).then( (response) => {
           this.setState({errMsg: false});
-          localStorage.setItem('xauth', response.headers["x-auth"]);
+          localStorage.setItem('xauth', response.data);
           window.location.href = "/";
         }).catch((error) => {
-          let errorMsg = error.response.data;
+          let errorMsg = "Error with login";
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            errorMsg = error.response.data;
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            errorMsg ='The request was made but no response was received';
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            errorMsg = 'Something happened in setting up the request that triggered an Error';
+            console.log('Error', error.message);
+          }
+          console.log(error.config);
           this.setState({errMsg: errorMsg})
         })
     };

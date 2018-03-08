@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classes from './Table.css';
-import axios from 'axios';
+import axios from '../../axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import TableRow from './TableRow/TableRow';
 

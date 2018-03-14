@@ -55,7 +55,7 @@ class FriendPredictions extends Component {
   render() {
     let games = null;
     if (this.state.games.length>0 && this.state.predictions.length) {
-      games = this.state.games.filter((game => game.status === 'FINISHED')).map((game)=>{
+      games = this.state.games.filter((game => ((game.status === 'FINISHED') && (this.state.predictions[game.id])))).map((game)=>{
         return <Game
           key={game.id}
           id={this.state.predictions[game.id]._id}

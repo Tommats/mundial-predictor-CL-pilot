@@ -4,6 +4,7 @@ import axios from '../../axios';
 import classes from './Auth.css';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 
 class Auth extends Component {
@@ -40,7 +41,8 @@ class Auth extends Component {
         serverError: false
       }
     },
-    errMsg: false
+    errMsg: false,
+    loading: false
   }
 
   checkValidity(value,rules) {
@@ -102,7 +104,7 @@ class Auth extends Component {
         'password': this.state.controls.password.value
       };
       axios.post('/users/login', data).then( (response) => {
-          this.setState({errMsg: false});
+          this.setState({errMsg: false, loading: true});
           localStorage.setItem('xauth', response.data);
           window.location.href = "/";
         }).catch((error) => {
@@ -151,11 +153,15 @@ class Auth extends Component {
 
     return (
       <div className={classes.Auth}>
-        <form>
-          {form}
-          <Button btnType="Success" clicked={this.submitFormHandler}>SUBMIT</Button>
-        </form>
-        {errMsg}
+        {(this.state.loading) ? <Spinner /> : (
+          <div>
+            <form>
+              {form}
+              <Button btnType="Success" clicked={this.submitFormHandler}>SUBMIT</Button>
+            </form>
+            {errMsg}
+          </div>
+        )}  
       </div>
     );
   }

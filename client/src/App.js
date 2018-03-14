@@ -21,9 +21,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
     if (!this.state.auth) {
       if (localStorage.getItem('xauth')) {
         axios.get('/users/me', {headers: {'x-auth' : localStorage.getItem('xauth')} }).then( (response) => {
